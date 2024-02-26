@@ -1,5 +1,4 @@
 from utilities.dependencies import *
-from utilities.definitions  import *
 
 @client.event
 async def on_ready():

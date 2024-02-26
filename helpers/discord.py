@@ -1,7 +1,10 @@
 import discord
 
-from discord        import app_commands
-from unsync.unsync  import unsync
+from discord            import app_commands
+from unsync.unsync      import unsync
+
+from utilities.definitions  import *
+from helpers.youtube    import *
 
 import time
 import sys

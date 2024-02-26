@@ -3,7 +3,6 @@ from threading          import Thread
 
 import yt_dlp           as youtube_extractor
 
-from helpers.youtube    import *
 from helpers.discord    import *
 from utilities.logs     import *
 
