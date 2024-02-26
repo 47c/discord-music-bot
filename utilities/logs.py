@@ -71,8 +71,6 @@ class logger_instance:
         self.output(content, type)
 
     def flush_queue(self):
-        print('initializing logger')
-
         while not self.kill:
             if len(self.queue) <= 0:
                 continue

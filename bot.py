@@ -4,7 +4,6 @@ from utilities.dependencies import *
 async def on_ready():
     await tree.sync()
 
-    print('ready')
     log(f'{client.user} ready')
 
 @client.event
@@ -28,16 +27,12 @@ async def connect_command(interaction: discord.Interaction):
         await interaction.response.send_message(content="currently busy")
         return
 
-    await voice_channel.connect()
-
+    client_status.update_status(interaction, (await voice_channel.connect()))
 
 if __name__ == '__main__':
-    logger_thread.start()
-    timeout_thread.start()
+    logger_thread.start(); timeout_thread.start()
 
     client.run(BOT_TOKEN)
 
     client_status.kill = logger.kill = True
-
-    logger_thread.join()
-    timeout_thread.join()
+    logger_thread.join(); timeout_thread.join()
