@@ -1,12 +1,11 @@
-from colorama import Fore, Back, Style
-from colorama import init as colorama_setup
-from threading import RLock, Thread
+from utilities.definitions  import *
 
-import threading
+from colorama               import Fore, Style
+from colorama               import init as colorama_setup
+from threading              import RLock, Thread
+
 import datetime
 import os
-
-from utilities.definitions import *
 
 colorama_setup()
 
@@ -82,8 +81,8 @@ class logger_instance:
                 self.queue.clear()
 
 logger = logger_instance()
-logger_thread = threading.Thread(name='logger', 
-                                 target=logger.flush_queue)
+logger_thread = Thread(name='logger', 
+                       target=logger.flush_queue)
 
 def log(content, type='n'):
     logger.push_to_queue(content, type)

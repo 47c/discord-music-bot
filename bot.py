@@ -1,4 +1,5 @@
 from utilities.dependencies import *
+from utilities.definitions  import *
 
 @client.event
 async def on_ready():
@@ -24,7 +25,7 @@ async def connect_command(interaction: discord.Interaction):
     voice_channel: discord.VoiceChannel = caller.voice.channel
 
     if not guild.id in guild_data.keys():
-        guild_data[guild.id] = GuildData(client)
+        guild_data[guild.id]            = GuildData(client)
 
     data: GuildData                     = guild_data[guild.id]
 
@@ -36,10 +37,8 @@ async def connect_command(interaction: discord.Interaction):
         await interaction.response.send_message(content="currently busy")
         return
 
-    data.status.update_status(interaction,
-                                (await voice_channel.connect()))
-    
-    await interaction.response.send_message('connected')
+    data.status.update_status(interaction, 
+                              await voice_channel.connect())
 
 if __name__ == '__main__':
     logger_thread.start(); timeout_thread.start()
