@@ -17,7 +17,8 @@ prefix_map = {'n': '##', 's': '>>', 'w': '**', 'e': '!!', 'd': '..'}
 
 class logger_instance:
     def __init__(self):
-        self.verbose = 1
+        self.kill = False
+        self.verbose = True
 
         self.file_name = f'log_{datetime.datetime.timestamp(datetime.datetime.now())}.txt'
         self.file_path = os.path.join(os.getcwd(), 'logs')
@@ -70,10 +71,9 @@ class logger_instance:
         self.output(content, type)
 
     def flush_queue(self):
-        global GLOBAL_KILLTHREADS
         print('initializing logger')
 
-        while not GLOBAL_KILLTHREADS:
+        while not self.kill:
             if len(self.queue) <= 0:
                 continue
 

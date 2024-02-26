@@ -37,9 +37,7 @@ if __name__ == '__main__':
 
     client.run(BOT_TOKEN)
 
-    GLOBAL_KILLTHREADS = True
-
-    print(f'{GLOBAL_KILLTHREADS}')
+    client_status.kill = logger.kill = True
 
     logger_thread.join()
     timeout_thread.join()

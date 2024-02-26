@@ -16,6 +16,8 @@ class ClientStatus:
 
         self.last_update = 0
 
+        self.kill = False
+
     def update_status(self, interaction: discord.Interaction, voice_client: discord.VoiceClient = None):
         self.last_update = time.perf_counter()
         
@@ -26,9 +28,7 @@ class ClientStatus:
             self.connected_to_channel[1] = None
 
     def timeout_handler(self):
-        global GLOBAL_KILLTHREADS
-
-        while not GLOBAL_KILLTHREADS:
+        while not self.kill:
             if time.perf_counter() - self.last_update >= VOICE_TIMEOUT:
                 if self.connected_to_channel[0] and not self.connected_to_channel[1] is None:
                     self.connected_to_channel[1].disconnect()
