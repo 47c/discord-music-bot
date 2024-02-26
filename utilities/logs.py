@@ -17,14 +17,14 @@ prefix_map = {'n': '##', 's': '>>', 'w': '**', 'e': '!!', 'd': '..'}
 
 class logger_instance:
     def __init__(self):
-        self.kill = False
-        self.verbose = True
+        self.kill       = False
+        self.verbose    = True
 
-        self.file_name = f'log_{datetime.datetime.timestamp(datetime.datetime.now())}.txt'
-        self.file_path = os.path.join(os.getcwd(), 'logs')
-        self.mutex = RLock()
+        self.file_name  = f'log_{datetime.datetime.timestamp(datetime.datetime.now())}.txt'
+        self.file_path  = os.path.join(os.getcwd(), 'logs')
+        self.mutex      = RLock()
 
-        self.queue = list()
+        self.queue      = list()
 
     def __create_file(self):
         if not os.path.exists(self.file_path):
@@ -82,7 +82,8 @@ class logger_instance:
                 self.queue.clear()
 
 logger = logger_instance()
-logger_thread = threading.Thread(name='logger', target=logger.flush_queue)
+logger_thread = threading.Thread(name='logger', 
+                                 target=logger.flush_queue)
 
 def log(content, type='n'):
     logger.push_to_queue(content, type)
