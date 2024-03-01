@@ -1,10 +1,11 @@
 import discord
 
-from discord            import app_commands
-from unsync.unsync      import unsync
+from discord                import app_commands
+from unsync.unsync          import unsync
 
 from utilities.definitions  import *
-from helpers.youtube    import *
+from helpers.youtube        import *
+from helpers.queue          import *
 
 import time
 import sys
@@ -46,6 +47,7 @@ class GuildData:
     def __init__(self, client: discord.Client):
         self.client: discord.Client     = client
         self.status: ClientStatus       = ClientStatus(client)
+        self.audio_queue: AudioQueue    = AudioQueue()
 
 @unsync
 async def timeout_handler():

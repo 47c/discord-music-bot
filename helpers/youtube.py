@@ -2,30 +2,33 @@ from youtubesearchpython import VideosSearch, Playlist
 
 import requests
 import json
+import io
 
-class VideoData:
+class YoutubeVideoData:
     def __init__(self, url: str = None, 
                  title: str = None, 
                  id: str = None, 
                  thumbnail: str = None, 
-                 duration: str = None):
+                 duration: str = None,
+                 buffer: io.BytesIO = None):
         self.url = url
         self.title = title
         self.id = id
         self.thumbnail = thumbnail
         self.duration = duration
+        self.buffer = buffer
 
 
-class YoutubeStream:
+class YoutubeEntry:
     def __init__(self):
-        self.video_data = VideoData()
+        self.video_data = YoutubeVideoData()
 
         self.api_host   = str()
         self.headers    = dict()
         self.options    = dict()
 
 
-    def _request(self):
+    def fill_buffer(self):
         def __setup_cobalt():
                 self.api_host   = "https://co.wuk.sh/api/json"
                 self.options    = { 
@@ -70,29 +73,26 @@ class YoutubeStream:
         response = requests.get(url=response_body['url'],
                                 headers=self.headers)
 
-        output = f'{__cobalt_extract_filename(response.headers)}.{__cobalt_extract_filetype(response.headers)}'
-        with open(output, 'wb') as handle:
-            handle.write(response.content)
-            handle.close()
+        self.video_data.buffer = io.BytesIO(response.content)
+        
+        # output = f'{__cobalt_extract_filename(response.headers)}.{__cobalt_extract_filetype(response.headers)}'
+        # with open(output, 'wb') as handle:
+        #     handle.write(response.content)
+        #     handle.close()
 
     def search(self, title: str):
         def __extract_thumbnail(url: str):
             return url[: url.find('?')]
 
         query = VideosSearch(title, limit=2)
-        if not 'result' in query.result().keys() or len(list(query.result().keys())) <= 1:
-            return False
+        if not 'result' in query.result().keys() or len(list(query.result().keys())) < 1:
+            return None
 
         query = query.result()['result'][0]
-        self.video_data = VideoData(url=query['link'],
-                                    title=query['title'],
-                                    id=query['id'],
-                                    thumbnail=__extract_thumbnail(query['thumbnails'][0]['url']),
-                                    duration=query['duration'])
-        
-        self._request()
+        self.video_data = YoutubeVideoData(url=query['link'],
+                                           title=query['title'],
+                                           id=query['id'],
+                                           thumbnail=__extract_thumbnail(query['thumbnails'][0]['url']),
+                                           duration=query['duration'])
 
-        return True
-
-stream = YoutubeStream()
-stream.search('d79812gh8712hd97812hd798')
+        return self.video_data
