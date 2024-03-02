@@ -73,7 +73,7 @@ class AudioQueue:
         if len(self.queue) < 1:
             return output
         
-        output += '```'
+        output = '```'
         entry: AudioEntry
         for index, entry in enumerate(self.queue):
             output += f'{index + 1} -> {entry.title}\n'
