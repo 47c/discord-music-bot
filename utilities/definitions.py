@@ -2,6 +2,13 @@ BOT_TOKEN           = 'MTIxMTY5NjY4OTc5NTE3NDQ2MQ.GHJYLU.Oh2IAGHjXSdJDA_92H3aeLk
 
 CMD_PREFIX          = "$"
 
-VOICE_TIMEOUT       = 3
+VOICE_TIMEOUT       = 30
 
 GLOBAL_KILLTHREADS  = False
+
+class AudioQueueCode:
+    VIDEODATA = 0
+    BUFFER = 1
+    EMPTYQUEUE = 2
+    SUCCESS = -1
+    PUSHEDQUEUE = -2
